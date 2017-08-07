@@ -1,5 +1,6 @@
 package com.star.netserver.netty.client;
 
+import com.star.serialize.Serialize;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -14,25 +15,26 @@ import io.netty.channel.socket.nio.NioSocketChannel;
  */
 public class NettyClient {
 
-    public void start() throws Exception{
-        EventLoopGroup workerGroup = new NioEventLoopGroup();
+    private String ip;
 
+    private Integer port;
+
+    private Serialize serialize;
+
+    public void start() throws Exception {
+        EventLoopGroup workerGroup = new NioEventLoopGroup();
         try {
-            Bootstrap b = new Bootstrap(); // (1)
-            b.group(workerGroup); // (2)
-            b.channel(NioSocketChannel.class); // (3)
-            b.option(ChannelOption.SO_KEEPALIVE, true); // (4)
+            Bootstrap b = new Bootstrap();
+            b.group(workerGroup);
+            b.channel(NioSocketChannel.class);
+            b.option(ChannelOption.SO_KEEPALIVE, true);
             b.handler(new ChannelInitializer<SocketChannel>() {
                 @Override
                 public void initChannel(SocketChannel ch) throws Exception {
-                    ch.pipeline().addLast(new TimeClientHandler());
+                    ch.pipeline().addLast(new SerializeClientHandler());
                 }
             });
-
-            // Start the client.
-            ChannelFuture f = b.connect("127.0.0.1", 9999).sync(); // (5)
-
-            // Wait until the connection is closed.
+            ChannelFuture f = b.connect(ip, port).sync();
             f.channel().closeFuture().sync();
         } finally {
             workerGroup.shutdownGracefully();
@@ -49,4 +51,27 @@ public class NettyClient {
     }
 
 
+    public String getIp() {
+        return ip;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
+
+    public Integer getPort() {
+        return port;
+    }
+
+    public void setPort(Integer port) {
+        this.port = port;
+    }
+
+    public Serialize getSerialize() {
+        return serialize;
+    }
+
+    public void setSerialize(Serialize serialize) {
+        this.serialize = serialize;
+    }
 }

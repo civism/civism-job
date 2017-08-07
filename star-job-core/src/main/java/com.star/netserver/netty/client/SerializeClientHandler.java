@@ -11,7 +11,7 @@ import java.util.Date;
 /**
  * Created by star on 2017/8/7.
  */
-public class TimeClientHandler extends ChannelInboundHandlerAdapter {
+public class SerializeClientHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
