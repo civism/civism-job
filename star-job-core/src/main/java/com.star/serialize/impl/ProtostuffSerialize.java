@@ -18,23 +18,11 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class ProtostuffSerialize implements Serialize {
 
-    private static Objenesis objenesis = new ObjenesisStd(true);
+    private static final Objenesis objenesis = new ObjenesisStd(true);
 
-    private static Map<Class<?>, Schema<?>> cachedSchema = new ConcurrentHashMap<>();
-
-    private static <T> Schema<T> getSchema(Class<T> cls) {
-        Schema<T> schema = (Schema<T>) cachedSchema.get(cls);
-        if (schema == null) {
-            schema = RuntimeSchema.createFrom(cls);
-            if (schema != null) {
-                cachedSchema.put(cls, schema);
-            }
-        }
-        return schema;
-    }
+    private static final Map<Class<?>, Schema<?>> cachedSchema = new ConcurrentHashMap<>();
 
 
-    @SuppressWarnings("unchecked")
     @Override
     public <T> byte[] serialize(T obj) {
         Class<T> cls = (Class<T>) obj.getClass();
@@ -59,5 +47,16 @@ public class ProtostuffSerialize implements Serialize {
         } catch (Exception e) {
             throw new IllegalStateException(e.getMessage(), e);
         }
+    }
+
+    private <T> Schema<T> getSchema(Class<T> cls) {
+        Schema<T> schema = (Schema<T>) cachedSchema.get(cls);
+        if (schema == null) {
+            schema = RuntimeSchema.createFrom(cls);
+            if (schema != null) {
+                cachedSchema.put(cls, schema);
+            }
+        }
+        return schema;
     }
 }

@@ -20,7 +20,7 @@ public class HessianSerialize implements Serialize {
 		HessianOutput ho = new HessianOutput(os);
 		try {
 			ho.writeObject(obj);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			throw new IllegalStateException(e.getMessage(), e);
 		}
 		return os.toByteArray();
@@ -32,7 +32,7 @@ public class HessianSerialize implements Serialize {
 		HessianInput hi = new HessianInput(is);
 		try {
 			return hi.readObject();
-		} catch (IOException e) {
+		} catch (Exception e) {
 			throw new IllegalStateException(e.getMessage(), e);
 		}
 	}
