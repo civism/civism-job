@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>    
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+	<!-- ===================================================================== -->
+	<!-- 以下是appender的定义 -->
+	<!-- ===================================================================== -->
+	<appender name="PROJECT-DEBUG" class="org.apache.log4j.ConsoleAppender">
+		<param name="encoding" value="UTF-8" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%p - %C{1}.%M(%L) | %m%n" />
+		</layout>
+	</appender>
+
+	<appender name="FILE" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="file" value="/data/home/deploy/output/logs/job.core.log" />
+		<param name="append" value="true" />
+		<param name="encoding" value="UTF-8" />
+		<param name="MaxFileSize" value="100MB" />
+		<param name="MaxBackupIndex" value="3" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%p[%t]-%C{1}(%L)(%r) | %m%n   【 %d{MM-dd HH:mm:ss:sss\} 】" />
+		</layout>
+	</appender>
+
+	<appender name="SHOW-SQL" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="file" value="/data/home/deploy/output/logs/show.sql.log" />
+		<param name="append" value="true" />
+		<param name="encoding" value="UTF-8" />
+		<param name="MaxFileSize" value="100MB" />
+		<param name="MaxBackupIndex" value="3" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="【 %d{MM-dd HH:mm:ss:sss\} 】%p[%t]-%C{1}.%M(%L)(%r) | %m%n" />
+		</layout>
+	</appender>
+
+	<logger name="com.alibaba.druid.filter.stat.StatFilter" additivity="false">
+		<level value="INFO" />
+		<appender-ref ref="SHOW-SQL" />
+	</logger>
+
+	<logger name="org.springframework" additivity="false">
+		<level value="ERROR" />
+		<appender-ref ref="FILE" />
+	</logger>
+
+	<logger name="com.star" additivity="true">
+		<level value="INFO" />
+		<appender-ref ref="FILE" />
+	</logger>
+
+	<appender name="IBatis" class="org.apache.log4j.ConsoleAppender">
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%-4r [%t] %-5p %c %x - %m%n" />
+		</layout>
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">
+			<param name="LevelMin" value="DEBUG" />
+			<param name="LevelMax" value="DEBUG" />
+		</filter>
+	</appender>
+
+	<logger name="com.ibatis" additivity="true">
+		<level value="WARN" />
+		<appender-ref ref="FILE" />
+	</logger>
+	<logger name="java.sql.Connection" additivity="true">
+		<level value="WARN" />
+		<appender-ref ref="FILE" />
+	</logger>
+	<logger name="java.sql.Statement" additivity="true">
+		<level value="WARN" />
+		<appender-ref ref="FILE" />
+	</logger>
+	<logger name="java.sql.PreparedStatement" additivity="true">
+		<level value="WARN" />
+		<appender-ref ref="FILE" />
+	</logger>
+	<logger name="java.sql.ResultSet" additivity="true">
+		<level value="WARN" />
+		<appender-ref ref="FILE" />
+	</logger>
+	<logger name="com.alibaba.dubbo" additivity="true">
+		<level value="WARN" />
+		<appender-ref ref="FILE" />
+	</logger>
+	<logger name="org.apache.zookeeper" additivity="true">
+		<level value="INFO" />
+		<appender-ref ref="FILE" />
+	</logger>
+	<logger name="com.github.zkclient" additivity="true">
+		<level value="INFO" />
+		<appender-ref ref="FILE" />
+	</logger>
+	<!-- ===================================================================== -->
+	<!-- Root logger的定义 -->
+	<!-- ===================================================================== -->
+	<root>
+		<level value="INFO" />
+		<appender-ref ref="PROJECT-DEBUG" />
+	</root>
+</log4j:configuration>
