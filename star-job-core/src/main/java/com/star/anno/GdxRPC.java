@@ -1,4 +1,4 @@
-package com.star.annotation;
+package com.star.anno;
 
 import org.springframework.stereotype.Component;
 

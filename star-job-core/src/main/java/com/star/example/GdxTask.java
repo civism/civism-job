@@ -1,14 +1,18 @@
 package com.star.example;
 
-import com.star.annotation.GdxRPC;
+import com.star.anno.GdxRPC;
+import org.springframework.stereotype.Service;
 
 /**
  * Created by star on 2017/8/18.
  */
-@GdxRPC
-public class GdxTask extends BaseTask {
+@GdxRPC(server = "netty",ip = "127.0.0.1",port = 9999)
+@Service("gdxTask")
+public class GdxTask extends BaseTask  {
 
     public void say() {
-        System.out.println("===============");
+        System.out.println("1111");
     }
+
+
 }

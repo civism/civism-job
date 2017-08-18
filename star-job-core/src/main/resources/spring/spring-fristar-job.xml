@@ -9,7 +9,9 @@
 
     <!-- 启用以下包中,Spring注释的Bean -->
     <context:component-scan base-package="com.star" use-default-filters="true">
-        <context:include-filter type="annotation" expression=".*"/>
+        <context:include-filter type="regex" expression="anno.*"/>
+        <context:include-filter type="regex" expression="core.*"/>
+        <context:include-filter type="regex" expression="example.*"/>
     </context:component-scan>
     <aop:config/>
     <context:annotation-config/>
