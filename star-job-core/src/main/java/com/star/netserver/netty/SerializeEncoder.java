@@ -1,5 +1,6 @@
 package com.star.netserver.netty;
 
+import com.star.serialize.Serialize;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
@@ -11,12 +12,23 @@ import io.netty.handler.codec.MessageToByteEncoder;
  */
 public class SerializeEncoder extends MessageToByteEncoder {
 
-    //判断传送客户端传送过来的数据是否按照协议传输，
-    // 头部信息的大小应该是 byte+byte+int = 1+1+4 = 6
-    private static final int HEADER_SIZE = 6;
-    
+    private Class<?> clazz;
+
+    private Serialize serialize;
+
+    public SerializeEncoder(Class<?> clazz, Serialize serialize) {
+        this.clazz = clazz;
+        this.serialize = serialize;
+    }
+
     @Override
     protected void encode(ChannelHandlerContext channelHandlerContext, Object o, ByteBuf byteBuf) throws Exception {
-
+        //判断类型是否对应
+        if (!clazz.isInstance(o)) {
+            return;
+        }
+        byte[] serialize = this.serialize.serialize(o);
+        byteBuf.writeInt(serialize.length);
+        byteBuf.writeBytes(serialize);
     }
 }

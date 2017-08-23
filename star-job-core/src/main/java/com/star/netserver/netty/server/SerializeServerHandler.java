@@ -1,11 +1,9 @@
 package com.star.netserver.netty.server;
 
-import com.alibaba.fastjson.JSON;
-import com.star.model.Message;
-import io.netty.buffer.Unpooled;
-import io.netty.channel.ChannelFutureListener;
+import com.star.factory.CenterFactory;
+import com.star.model.RpcRequest;
+import com.star.model.RpcResponse;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.channel.SimpleChannelInboundHandler;
 
 /**
@@ -14,13 +12,12 @@ import io.netty.channel.SimpleChannelInboundHandler;
 public class SerializeServerHandler extends SimpleChannelInboundHandler {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        Message message = (Message) msg;
-        System.out.println(JSON.toJSONString(message));
-        Message tmp = new Message();
-        tmp.setContent("hello client");
-        tmp.setId(2);
-        System.out.println("MessageServerHandler.channelRead()");
-        ctx.writeAndFlush(tmp);
+        RpcRequest request = (RpcRequest) msg;
+        //业务处理中心工厂
+        CenterFactory factory = new CenterFactory();
+
+        RpcResponse response = new RpcResponse();
+        ctx.writeAndFlush(response);
     }
 
     @Override
