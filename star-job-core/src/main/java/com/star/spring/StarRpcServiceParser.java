@@ -7,11 +7,14 @@ import org.w3c.dom.Element;
 /**
  * Created by star on 2017/8/23.
  */
-public class StarRpcReferenceReferenceParser extends AbstractSingleBeanDefinitionParser {
+public class StarRpcServiceParser extends AbstractSingleBeanDefinitionParser {
 
 
     @Override
     protected void doParse(Element element, BeanDefinitionBuilder builder) {
-        super.doParse(element, builder);
+        String interfaceName = element.getAttribute("interfaceName");
+        String ref = element.getAttribute("ref");
+        builder.addPropertyValue("interfaceName",interfaceName);
+        builder.addPropertyValue("ref",ref);
     }
 }

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.xml.NamespaceHandlerSupport;
 public class StarRpcNamespaceHandle extends NamespaceHandlerSupport {
     @Override
     public void init() {
-        registerBeanDefinitionParser("",null);
+        registerBeanDefinitionParser("service", new StarRpcServiceParser());
+        registerBeanDefinitionParser("reference", new StarRpcReferenceParser());
     }
 }
