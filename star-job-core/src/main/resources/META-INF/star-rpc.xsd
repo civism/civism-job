@@ -17,7 +17,6 @@
 				<xsd:extension base="beans:identifiedType">
 					<xsd:attribute name="interfaceName" type="xsd:string" use="required"/>
 					<xsd:attribute name="address" type="xsd:string" use="required"/>
-					<xsd:attribute name="id" type="xsd:string" use="required"/>
 				</xsd:extension>
 			</xsd:complexContent>
 		</xsd:complexType>

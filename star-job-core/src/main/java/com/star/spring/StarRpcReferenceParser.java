@@ -14,9 +14,7 @@ public class StarRpcReferenceParser extends AbstractSingleBeanDefinitionParser {
     protected void doParse(Element element, BeanDefinitionBuilder builder) {
         String interfaceName = element.getAttribute("interfaceName");
         String address = element.getAttribute("address");
-        String id =  element.getAttribute("id");
         builder.addPropertyValue("interfaceName",interfaceName);
         builder.addPropertyValue("address",address);
-        builder.addPropertyValue("id",id);
     }
 }

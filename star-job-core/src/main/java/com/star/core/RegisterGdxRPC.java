@@ -18,12 +18,12 @@ public class RegisterGdxRPC extends ApplicationObjectSupport {
     @Override
     protected void initApplicationContext(ApplicationContext context) throws BeansException {
         super.initApplicationContext(context);
-        Map<String, Object> beansWithAnnotation = context.getBeansWithAnnotation(GdxRPC.class);
-        beansWithAnnotation.forEach((k, v) -> {
-            Class<?> clazz = v.getClass();
-            GdxRPC annotation = clazz.getAnnotation(GdxRPC.class);
-            System.out.println(annotation);
-            annotation.ip();
-        });
+//        Map<String, Object> beansWithAnnotation = context.getBeansWithAnnotation(GdxRPC.class);
+//        beansWithAnnotation.forEach((k, v) -> {
+//            Class<?> clazz = v.getClass();
+//            GdxRPC annotation = clazz.getAnnotation(GdxRPC.class);
+//            System.out.println(annotation);
+//            annotation.ip();
+//        });
     }
 }
