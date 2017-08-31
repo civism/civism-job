@@ -26,9 +26,6 @@ public class NettyServer {
 
     private Serialize serialize;
 
-    private Class<?> clazz;
-
-
     public void run() throws Exception {
         //返回处理器数量
         int availProcess = Runtime.getRuntime().availableProcessors() * 2;
@@ -38,7 +35,7 @@ public class NettyServer {
             ServerBootstrap b = new ServerBootstrap();
             b.group(bossGroup, workerGroup)
                     .channel(NioServerSocketChannel.class)
-                    .childHandler(new ServerHandler(clazz, serialize))
+                    .childHandler(new ServerHandler(serialize))
                     .option(ChannelOption.SO_BACKLOG, 128)
                     .childOption(ChannelOption.SO_KEEPALIVE, true);
             ChannelFuture f = b.bind(ip, port).sync();
@@ -48,6 +45,7 @@ public class NettyServer {
             bossGroup.shutdownGracefully();
         }
     }
+
 
     public String getIp() {
         return ip;

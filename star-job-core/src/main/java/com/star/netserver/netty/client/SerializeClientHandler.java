@@ -2,6 +2,7 @@ package com.star.netserver.netty.client;
 
 import com.alibaba.fastjson.JSON;
 import com.star.model.Message;
+import com.star.model.RpcRequest;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
@@ -12,10 +13,9 @@ import io.netty.channel.SimpleChannelInboundHandler;
 public class SerializeClientHandler extends SimpleChannelInboundHandler {
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        Message message = new Message();
-        message.setContent("我是star");
-        message.setId(1);
-        ctx.write(message);
+        RpcRequest request = new RpcRequest();
+        request.setContent("我是star");
+        ctx.write(request);
         ctx.flush();
     }
 

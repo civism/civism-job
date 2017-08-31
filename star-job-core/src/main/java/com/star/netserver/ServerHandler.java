@@ -1,5 +1,7 @@
 package com.star.netserver;
 
+import com.star.model.RpcRequest;
+import com.star.model.RpcResponse;
 import com.star.netserver.netty.SerializeDecoder;
 import com.star.netserver.netty.SerializeEncoder;
 import com.star.netserver.netty.server.SerializeServerHandler;
@@ -12,19 +14,17 @@ import io.netty.channel.ChannelInitializer;
  */
 public class ServerHandler extends ChannelInitializer {
 
-    private Class<?> clazz;
 
     private Serialize serialize;
 
-    public ServerHandler(Class<?> clazz, Serialize serialize) {
-        this.clazz = clazz;
+    public ServerHandler(Serialize serialize) {
         this.serialize = serialize;
     }
 
     @Override
     protected void initChannel(Channel channel) throws Exception {
-        channel.pipeline().addLast(new SerializeDecoder(clazz, serialize));
-        channel.pipeline().addLast(new SerializeEncoder(clazz, serialize));
+        channel.pipeline().addLast(new SerializeDecoder(RpcResponse.class, serialize));
+        channel.pipeline().addLast(new SerializeEncoder(RpcRequest.class, serialize));
         channel.pipeline().addLast(new SerializeServerHandler());
     }
 }
