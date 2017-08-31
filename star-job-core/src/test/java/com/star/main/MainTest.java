@@ -1,6 +1,8 @@
 package com.star.main;
 
 
+import com.alibaba.fastjson.JSON;
+import com.star.spring.RpcReference;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -12,8 +14,8 @@ public class MainTest {
 
     public static void main(String[] args) {
         ApplicationContext context = new ClassPathXmlApplicationContext("classpath*:spring/spring-fristar-test.xml");
-        Object helloWorldService = context.getBean("helloWorldService");
-        System.out.println(helloWorldService);
+        RpcReference  helloWorldService = (RpcReference )context.getBean("com.star.service.HelloWorldService");
+        System.out.println(JSON.toJSONString(helloWorldService));
     }
 
 }

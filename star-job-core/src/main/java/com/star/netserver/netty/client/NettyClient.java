@@ -1,5 +1,6 @@
 package com.star.netserver.netty.client;
 
+import com.star.netserver.ClientHandler;
 import com.star.serialize.Serialize;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
@@ -19,6 +20,7 @@ import io.netty.handler.codec.serialization.ObjectEncoder;
  */
 public class NettyClient {
 
+    private Class<?> clazz;
     private String ip;
 
     private Integer port;
@@ -32,17 +34,7 @@ public class NettyClient {
             b.group(workerGroup);
             b.channel(NioSocketChannel.class);
             b.option(ChannelOption.SO_KEEPALIVE, true);
-            b.handler(new ChannelInitializer<SocketChannel>() {
-                @Override
-                public void initChannel(SocketChannel ch) throws Exception {
-                    //添加对象解码器，负责对POJO对象进行解码，设置对象序列化最大长度为1M，防止内存溢出
-                    //设置线程安全的WeakReferenceMap对类加载器进行缓存，支持多线程并发，防止内存溢出
-                    ch.pipeline().addLast(new ObjectDecoder(1024*1024, ClassResolvers.weakCachingConcurrentResolver(this.getClass().getClassLoader())));
-                   //添加对象编辑器 在服务器对发送消息时自动将实现POJO对象编码
-                    ch.pipeline().addLast(new ObjectEncoder());
-                    ch.pipeline().addLast(new SerializeClientHandler());
-                }
-            });
+            b.handler(new ClientHandler(clazz,serialize));
             ChannelFuture f = b.connect(ip, port).sync();
             f.channel().closeFuture().sync();
         } finally {
