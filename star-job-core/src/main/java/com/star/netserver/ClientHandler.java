@@ -23,8 +23,8 @@ public class ClientHandler extends ChannelInitializer {
 
     @Override
     protected void initChannel(Channel channel) throws Exception {
-        channel.pipeline().addLast(new SerializeDecoder(RpcRequest.class, serialize));
-        channel.pipeline().addLast(new SerializeEncoder(RpcResponse.class, serialize));
+        channel.pipeline().addLast(new SerializeEncoder(RpcRequest.class, serialize));
+        channel.pipeline().addLast(new SerializeDecoder(RpcResponse.class, serialize));
         channel.pipeline().addLast(new SerializeClientHandler());
     }
 }

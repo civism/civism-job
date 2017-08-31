@@ -1,7 +1,5 @@
 package com.star.main;
 
-import com.star.model.Message;
-import com.star.model.RpcRequest;
 import com.star.netserver.netty.client.NettyClient;
 import com.star.serialize.Serialize;
 import com.star.serialize.impl.HessianSerialize;

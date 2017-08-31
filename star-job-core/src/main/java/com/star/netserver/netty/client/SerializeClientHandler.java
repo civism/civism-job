@@ -21,7 +21,7 @@ public class SerializeClientHandler extends SimpleChannelInboundHandler {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        System.out.println(JSON.toJSON(msg));
+        System.out.println(JSON.toJSONString(msg));
     }
 
     @Override
