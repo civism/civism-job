@@ -9,8 +9,7 @@ public class CivismConstants {
     /**
      * 调度节点
      */
-//    public static final String ZK_GUAVA = "/guava/";
-    public static final String ZK_GUAVA = "/comb_job/";
+    public static final String ZK_GUAVA = "/guava/";
 
     /**
      * job 详情
