@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd"
+       default-autowire="byName">
+
+    <!--日志监控bean-->
+    <bean id="stat-filter" class="com.alibaba.druid.filter.stat.StatFilter">
+        <property name="slowSqlMillis" value="800"/>
+        <property name="logSlowSql" value="true"/>
+    </bean>
+
+    <!-- 正式数据源配置 -->
+    <!--mysql的数据源 -->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
+          init-method="init" destroy-method="close">
+        <property name="url"
+                  value="jdbc:mysql://127.0.0.1:3306/civism-job?useUnicode=true&amp;characterEncoding=utf8&amp;allowMultiQueries=true&amp;useSSL=false"/>
+        <property name="username" value="ruhnn"/>
+        <property name="password" value="ruhnn"/>
+        <property name="filters" value="log4j"/>
+        <property name="proxyFilters">
+            <list>
+                <ref bean="stat-filter"/>
+            </list>
+        </property>
+        <property name="initialSize" value="10"/>
+        <property name="maxWait" value="6000"/>
+        <property name="maxActive" value="50"/>
+        <property name="minIdle" value="1"/>
+        <property name="timeBetweenEvictionRunsMillis" value="3000"/>
+        <property name="minEvictableIdleTimeMillis" value="300000"/>
+        <property name="validationQuery" value="SELECT 'x'"/>
+        <property name="testWhileIdle" value="true"/>
+        <property name="testOnBorrow" value="false"/>
+        <property name="testOnReturn" value="false"/>
+        <property name="connectionInitSqls" value="set names utf8mb4;"/>
+    </bean>
+
+
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="configLocation" value="classpath:mybatis/mybatis.config.xml"/>
+        <property name="typeAliasesPackage" value="com.mybatis.model"/>
+        <property name="mapperLocations">
+            <list>
+                <value>classpath:sqlmap/*.xml</value>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.civism.dao"/>
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+    </bean>
+
+</beans>

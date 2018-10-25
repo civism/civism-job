@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.civism.dao.JobRecordDao">
+    <resultMap id="JobRecordResult" type="com.civism.model.JobRecordDO">
+        <result column="id" property="id" jdbcType="INTEGER"/>
+        <result column="job_name" property="jobName" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="request_id" property="requestId" jdbcType="VARCHAR"/>
+        <result column="start_time" property="startTime" jdbcType="TIMESTAMP"/>
+        <result column="end_time" property="endTime" jdbcType="TIMESTAMP"/>
+        <result column="job_type" property="jobType" jdbcType="INTEGER"/>
+        <result column="send_ip" property="sendIp" jdbcType="VARCHAR"/>
+        <result column="accept_ip" property="acceptIp" jdbcType="VARCHAR"/>
+        <result column="invoke_type" property="invokeType" jdbcType="VARCHAR"/>
+        <result column="share_id" property="shareId" jdbcType="INTEGER"/>
+        <result column="total_share" property="totalShare" jdbcType="INTEGER"/>
+        <result column="result" property="result" jdbcType="VARCHAR"/>
+        <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP"/>
+        <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="base_column">
+        id,job_name,status,request_id,start_time,end_time,job_type,send_ip,accept_ip,invoke_type,share_id,total_share,result,gmt_create,gmt_modified
+    </sql>
+
+    <insert id="create" parameterType="com.civism.model.JobRecordDO">
+        INSERT into tb_job_record(job_name,status,request_id,start_time,end_time,job_type,send_ip,accept_ip,invoke_type,share_id,total_share,result,gmt_create,gmt_modified)
+        VALUES (#{jobName},#{status},#{requestId},#{startTime},#{endTime},#{jobType},#{sendIp},#{acceptIp},#{invokeType},#{shareId},#{totalShare},#{result},now(),now())
+    </insert>
+
+    <update id="update" parameterType="com.civism.model.JobRecordDO">
+        UPDATE tb_job_record set gmt_modified = now()
+        <if test="status!=null">
+            ,status = #{status}
+        </if>
+        <if test="endTime!=null">
+            ,end_time =#{endTime}
+        </if>
+        <if test="result!=null">
+            ,result =#{result}
+        </if>
+        where request_id = #{requestId}
+    </update>
+</mapper>

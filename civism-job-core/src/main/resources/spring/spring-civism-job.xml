@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-4.2.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd "
+       default-autowire="byName">
+
+
+    <!-- 启用以下包中,Spring注释的Bean -->
+    <context:component-scan base-package="com.civism" use-default-filters="true">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Service"/>
+    </context:component-scan>
+    <aop:config/>
+    <context:annotation-config/>
+
+
+    <bean id="ruhnnJobApplication" class="com.civism.job.schedule.GuavaJobApplication"/>
+
+
+    <bean id="zkClient" class="com.civism.zookeeper.ZkClient">
+        <constructor-arg name="hosts" value="127.0.0.1:2181"/>
+    </bean>
+
+    <bean id="scheduleFactory" class="com.civism.job.quartz.ScheduleFactory" destroy-method="destroy"
+          init-method="start"/>
+
+    <bean name="civismSchedulerFactoryBean"
+          class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="dataSource">
+            <ref bean="dataSource"/>
+        </property>
+        <property name="applicationContextSchedulerContextKey" value="applicationContextKey"/>
+        <property name="configLocation" value="classpath:quartz.properties"/>
+    </bean>
+
+</beans>
