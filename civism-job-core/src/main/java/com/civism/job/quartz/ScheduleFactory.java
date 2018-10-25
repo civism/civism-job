@@ -11,6 +11,8 @@ import java.util.HashSet;
 /**
  * @author star
  * @date 2018/1/30 下午3:36
+ * 这儿参考了许雪丽的代码，在做调度的时候，发现quart支持
+ * github 上面也有
  */
 public class ScheduleFactory {
 
