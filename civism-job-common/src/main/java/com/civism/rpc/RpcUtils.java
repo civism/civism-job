@@ -14,14 +14,12 @@ import com.civism.rpc.processor.SyncRpcServerUserProcessor;
  * @date 2018/8/10 下午3:15
  */
 public class RpcUtils {
-
     private static RpcServer server;
 
     private static RpcClient client;
 
     private static void initServer(Integer port) {
         server = new RpcServer(port);
-        SerializeUtils.init();
         ConnectEventProcessor connectEventProcessor = new ConnectEventProcessor();
         DisconnectEventProcessor disconnectEventProcessor = new DisconnectEventProcessor();
         server.addConnectionEventProcessor(ConnectionEventType.CONNECT, connectEventProcessor);
@@ -33,7 +31,6 @@ public class RpcUtils {
 
     private static void initClient() {
         client = new RpcClient();
-        SerializeUtils.init();
         ConnectEventProcessor connectEventProcessor = new ConnectEventProcessor();
         DisconnectEventProcessor disconnectEventProcessor = new DisconnectEventProcessor();
         client.addConnectionEventProcessor(ConnectionEventType.CONNECT, connectEventProcessor);
@@ -64,5 +61,6 @@ public class RpcUtils {
         }
         return client;
     }
+
 
 }
